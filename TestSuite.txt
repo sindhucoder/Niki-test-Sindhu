@@ -1,0 +1,247 @@
+package niki;
+
+
+import java.net.MalformedURLException;
+
+import java.net.URL;
+
+import java.util.List;
+
+import java.util.concurrent.TimeUnit;
+
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+
+import io.appium.java_client.android.AndroidDriver;
+
+ import junit.framework.Assert;
+
+
+public class Test 
+     {
+	public static WebDriver driver;
+
+	public WebElement navele = driver.findElement(By.xpath("//android.widget.ImageButton[1][@content-desc='Open navigation drawer']"));
+	
+        public WebElement logoele = driver.findElement(By.id("com.techbins.niki:id/niki_title_chat"));
+	
+public void homescreen()
+   //testcase #2
+{	
+       try
+		
+         {
+			
+         String logotext ="Niki";
+			
+
+	  if(logoele.getText().compareToIgnoreCase(logotext) == 0)
+		
+             System.out.println("Logo is displayed");
+         
+          
+if(navele.isDisplayed())
+		
+       	     System.out.println("Navigation menu is displayed");
+
+         }
+catch (Exception e)
+	
+	 {
+	
+		System.out.println("App is not launched || elements are not located properly");
+	
+	 }
+   }
+	
+ public void hintText() //testcase #4
+         {
+		
+         try
+		
+         {
+ 
+         String hinttext = driver.findElement(By.xpath("//android.widget.TextView[1][@text='You can now apply uber promo code on Niki.']")).getText();
+			
+          if(hinttext.compareToIgnoreCase("You can now apply uber promo code on Niki.")==0)
+		
+             System.out.println("Left menu hint text is displayed");
+
+         }      
+         catch (Exception e)
+	
+	 {
+	
+		System.out.println("App is not launched || elements are not located properly");
+	
+	 }
+        }
+
+public void mSGONHome() //testcase #3
+          {
+           try
+           {		
+			
+           String listtitle = "Hi I am Niki, your personal assistant to help you shop on chat :) I am here to make your life convenient and fast. So start chatting now! I can help you with:";
+			
+           WebElement lsttitle = driver.findElement(By.id("com.techbins.niki:id/listicleTitle"));
+		
+	    if(lsttitle.getText().compareToIgnoreCase(listtitle) == 0)
+			
+	       System.out.println("List title description is displayed");
+
+            }      
+           catch (Exception e)
+	
+	   {
+	
+		System.out.println("App is not launched || elements are not located properly");
+	
+	   }
+          }
+
+public void listonHOME() //testcase #5
+        {
+         try
+           {		
+		
+	  String listelementstext[] = {"Prepaid Recharge", "Postpaid bill", "Household bills", "Cab booking", "Bus Booking", "Hotel booking", "Event Booking", "Get a burger","Laundry",""};
+
+          List<WebElement> listelements = driver.findElements(By.id("com.techbins.niki:id/listOption"));
+		
+	  int i=0;
+		
+	  int listsize =listelements.size();
+		
+	  for (WebElement ele: listelements)
+		
+	  {
+				
+          if (ele.getText().compareToIgnoreCase(listelementstext[i])==0)
+		
+	    i++;
+			
+	  else
+			
+	    break;
+		
+	  }
+			
+       if(listsize>=i)
+		
+		System.out.println("all the elements in home screen are present");
+	
+		else
+			
+	        System.out.println("some elements in home screen are missing");
+	
+	  }
+		
+       catch (Exception e)
+	
+	{
+	
+		System.out.println("App is not launched || elements are not located properly");
+	
+	}
+	
+     }
+
+	
+public void leftmenu()
+     //testcase #6
+{
+		
+      try
+	
+       {
+        navele.click();
+		
+        String navlistelements[] = {"My Orders", "Improve My Experience", "Notifications", "Refer & Earn", "Offers & Promocodes", "Rating & Feedback", "Need Help"};
+
+	List<WebElement> navlist = driver.findElements(By.id("com.techbins.niki:id/menuTitle"));
+	
+	int i=0;
+	
+	int listsize =navlist.size();
+	
+	 for (WebElement ele: navlist)
+		
+         {
+			
+          if (ele.getText().compareToIgnoreCase(navlistelements[i])==0)
+		
+	   i++;
+			
+          else
+		
+	   break;
+	
+	 }
+	
+	  if(listsize>=i)
+		
+	  System.out.println("all the elements in left navigation menu are present");
+	
+	  else
+	
+          System.out.println("some elements in left navigation menu are missing");
+	
+       }
+		
+        catch(Exception e)
+	
+	{
+	
+		System.out.println("Issue in navigation menu");
+	
+	}
+	
+
+}
+     
+public static void main(String[] args) throws MalformedURLException 
+       {
+
+         DesiredCapabilities capabilities = new DesiredCapabilities();
+	
+	 capabilities.setCapability("deviceName", "ZY222655G6");
+      
+ 	 capabilities.setCapability("browserName", "Android");
+      
+ 	 capabilities.setCapability("platformVersion", "6.0.1");
+      
+ 	 capabilities.setCapability("api", "23");
+     
+ 	 capabilities.setCapability("platformName", "Android");
+ 
+       	 capabilities.setCapability("appPackage", "com.techbins.niki");
+      
+  	 capabilities.setCapability("appActivity", "com.techbins.niki.SplashActivity");
+      
+        driver =  new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+   
+        driver.manage().timeouts().implicitlyWait(80, TimeUnit.SECONDS);
+      
+        Test t = new Test();
+     
+        t.homescreen();
+  
+        t.listonHOME();
+        t.mSGONHome();
+        t.leftmenu();
+   
+        t.hintText(); 
+        driver.quit();
+
+
+       }
+
+}
